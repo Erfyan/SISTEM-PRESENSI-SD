@@ -376,9 +376,10 @@ class AbsensiController extends Controller
     public function tandaiWaTerkirim(Request $request, Absensi $absensi): JsonResponse
     {
         $user = Auth::user();
-        $kelas = $absensi->siswa->kelas;
+        $absensi->loadMissing('siswa.kelas');
+        $kelas = $absensi->siswa?->kelas;
 
-        if ($user->isGuru() && $kelas->wali_id !== $user->id) {
+        if (!$kelas || ($user->isGuru() && $kelas->wali_id !== $user->id)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda tidak berwenang mengelola data kelas ini.',

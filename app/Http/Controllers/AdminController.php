@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\HariLibur;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
@@ -125,6 +126,8 @@ class AdminController extends Controller
         if ($kelas->siswa()->exists()) {
             return back()->with('error', 'Kelas ini masih memiliki data siswa. Pindahkan siswa terlebih dahulu.');
         }
+
+        HariLibur::where('kelas_id', $kelas->id)->delete();
 
         $nama = $kelas->nama;
         $kelas->delete();

@@ -22,10 +22,13 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SiswaController extends Controller
 {
-    private function checkAuthorization(Kelas $kelas): void
+    private function checkAuthorization(?Kelas $kelas): void
     {
         $user = Auth::user();
-        if ($user->isGuru() && $kelas->wali_id !== $user->id) {
+        if (!$kelas) {
+            abort(404, 'Data kelas siswa tidak ditemukan.');
+        }
+        if ($user->isGuru() && (int) $kelas->wali_id !== (int) $user->id) {
             abort(403, 'Anda hanya dapat mengelola siswa di kelas yang Anda ampu.');
         }
     }
