@@ -25,6 +25,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/favicon.ico', fn () => response()->file(public_path('icons/icon-192x192.png')));
+Route::get('/favicon.png', fn () => response()->file(public_path('icons/icon-192x192.png')));
+
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

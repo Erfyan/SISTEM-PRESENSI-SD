@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 
 define('LARAVEL_START', microtime(true));
 
@@ -54,11 +54,13 @@ require __DIR__ . '/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
-// Jika database baru kosong di /tmp, jalankan migrasi & seeding awal otomatis
+// Jika database baru kosong di /tmp, jalankan migrasi & seeding awal melalui Console Kernel
 if ($needsMigration) {
     try {
-        Artisan::call('migrate', ['--force' => true]);
-        Artisan::call('db:seed', ['--force' => true]);
+        /** @var ConsoleKernel $consoleKernel */
+        $consoleKernel = $app->make(ConsoleKernel::class);
+        $consoleKernel->call('migrate', ['--force' => true]);
+        $consoleKernel->call('db:seed', ['--force' => true]);
     } catch (\Throwable $e) {
         error_log('Vercel SQLite auto-migration error: ' . $e->getMessage());
     }
