@@ -51,7 +51,7 @@ $_ENV['VERCEL'] = '1';
 
 // Konfigurasi Database Supabase IPv4 Pooler (Singapore)
 $poolerHost = 'aws-1-ap-southeast-1.pooler.supabase.com';
-$poolerPort = '6543';
+$poolerPort = '5432';
 $poolerUser = 'postgres.rvoztduinbwqfqxekqgw';
 $poolerPass = 'Erfyan-09.09';
 $poolerDb   = 'postgres';
