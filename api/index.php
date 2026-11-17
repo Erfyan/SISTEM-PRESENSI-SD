@@ -49,6 +49,41 @@ putenv('VERCEL=1');
 $_SERVER['VERCEL'] = '1';
 $_ENV['VERCEL'] = '1';
 
+// Konfigurasi Database Supabase IPv4 Pooler (Singapore)
+$poolerHost = 'aws-0-ap-southeast-1.pooler.supabase.com';
+$poolerPort = '5432';
+$poolerUser = 'postgres.rvoztduinbwqfqxekqgw';
+$poolerPass = 'Erfyan-09.09';
+$poolerDb   = 'postgres';
+$poolerUrl  = "postgresql://{$poolerUser}:{$poolerPass}@{$poolerHost}:{$poolerPort}/{$poolerDb}?sslmode=require";
+
+putenv('DB_CONNECTION=pgsql');
+putenv("DB_HOST={$poolerHost}");
+putenv("DB_PORT={$poolerPort}");
+putenv("DB_DATABASE={$poolerDb}");
+putenv("DB_USERNAME={$poolerUser}");
+putenv("DB_PASSWORD={$poolerPass}");
+putenv('DB_SSLMODE=require');
+putenv("DB_URL={$poolerUrl}");
+
+$_ENV['DB_CONNECTION'] = 'pgsql';
+$_ENV['DB_HOST'] = $poolerHost;
+$_ENV['DB_PORT'] = $poolerPort;
+$_ENV['DB_DATABASE'] = $poolerDb;
+$_ENV['DB_USERNAME'] = $poolerUser;
+$_ENV['DB_PASSWORD'] = $poolerPass;
+$_ENV['DB_SSLMODE'] = 'require';
+$_ENV['DB_URL'] = $poolerUrl;
+
+$_SERVER['DB_CONNECTION'] = 'pgsql';
+$_SERVER['DB_HOST'] = $poolerHost;
+$_SERVER['DB_PORT'] = $poolerPort;
+$_SERVER['DB_DATABASE'] = $poolerDb;
+$_SERVER['DB_USERNAME'] = $poolerUser;
+$_SERVER['DB_PASSWORD'] = $poolerPass;
+$_SERVER['DB_SSLMODE'] = 'require';
+$_SERVER['DB_URL'] = $poolerUrl;
+
 // APP_KEY fallback jika belum diset di Vercel Dashboard
 if (empty($_SERVER['APP_KEY']) && empty($_ENV['APP_KEY']) && !getenv('APP_KEY')) {
     $key = 'base64:6dLudkxaS66sd6X6EIgKXNzVg6aoupfjR5qaG8+xpR4=';
