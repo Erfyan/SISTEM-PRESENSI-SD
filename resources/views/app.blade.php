@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0d9488">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Absensi SD">
     <link rel="icon" type="image/png" href="/icons/icon-192x192.png">
-    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="manifest" href="/build/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     <title inertia>{{ config('app.name', 'Sipreline - Absensi SD') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">

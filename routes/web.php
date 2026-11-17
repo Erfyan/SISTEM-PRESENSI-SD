@@ -27,6 +27,10 @@ Route::get('/', function () {
 
 Route::get('/favicon.ico', fn () => response()->file(public_path('icons/icon-192x192.png')));
 Route::get('/favicon.png', fn () => response()->file(public_path('icons/icon-192x192.png')));
+Route::get('/manifest.webmanifest', function () {
+    $path = public_path('build/manifest.webmanifest');
+    return file_exists($path) ? response()->file($path, ['Content-Type' => 'application/manifest+json']) : response()->json([]);
+});
 
 // Route pengujian koneksi database (bisa dibuka langsung di browser)
 Route::get('/test-db', function () {
