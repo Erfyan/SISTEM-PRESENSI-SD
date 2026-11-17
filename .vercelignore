@@ -1,0 +1,9 @@
+.git
+.github
+tests
+storage/app/backups/*
+storage/logs/*
+node_modules
+.env
+.env.backup
+.env.production
