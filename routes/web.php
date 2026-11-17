@@ -28,6 +28,34 @@ Route::get('/', function () {
 Route::get('/favicon.ico', fn () => response()->file(public_path('icons/icon-192x192.png')));
 Route::get('/favicon.png', fn () => response()->file(public_path('icons/icon-192x192.png')));
 
+// Route pengujian koneksi database (bisa dibuka langsung di browser)
+Route::get('/test-db', function () {
+    try {
+        $dbDriver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+        $usersCount = \App\Models\User::count();
+        $kelasCount = \App\Models\Kelas::count();
+        $siswaCount = \App\Models\Siswa::count();
+        $adminUser = \App\Models\User::where('peran', 'admin')->first(['id', 'username', 'nama', 'peran']);
+
+        return response()->json([
+            'status' => 'success',
+            'pesan' => 'Koneksi ke database Supabase BERHASIL!',
+            'driver' => $dbDriver,
+            'data' => [
+                'total_users' => $usersCount,
+                'total_kelas' => $kelasCount,
+                'total_siswa' => $siswaCount,
+                'admin' => $adminUser,
+            ],
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'pesan' => 'Gagal terhubung ke database: ' . $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
