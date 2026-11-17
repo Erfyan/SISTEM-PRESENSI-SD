@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 define('LARAVEL_START', microtime(true));
 
@@ -22,7 +23,7 @@ putenv('VERCEL=1');
 $_SERVER['VERCEL'] = '1';
 $_ENV['VERCEL'] = '1';
 
-// APP_KEY fallback (sebaiknya diset di Vercel Dashboard → Environment Variables)
+// APP_KEY fallback jika belum diset di Vercel Dashboard
 if (empty($_SERVER['APP_KEY']) && empty($_ENV['APP_KEY']) && !getenv('APP_KEY')) {
     $key = 'base64:6dLudkxaS66sd6X6EIgKXNzVg6aoupfjR5qaG8+xpR4=';
     putenv("APP_KEY={$key}");
@@ -58,21 +59,6 @@ foreach ($tmpDirs as $dir) {
     }
 }
 
-// ─── Siapkan database SQLite di /tmp ────────────────────────────────────────
-
-$targetDb = '/tmp/database.sqlite';
-$sourceDb = __DIR__ . '/../database/database.sqlite';
-
-if (!file_exists($targetDb) || filesize($targetDb) === 0) {
-    if (file_exists($sourceDb) && filesize($sourceDb) > 0) {
-        // Salin database yang sudah ter-migrasi & ter-seed dari repo
-        @copy($sourceDb, $targetDb);
-    } else {
-        // Database sumber tidak ada → buat kosong, lalu migrasi runtime
-        @touch($targetDb);
-    }
-}
-
 // ─── Bootstrap Laravel ──────────────────────────────────────────────────────
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -80,16 +66,19 @@ require __DIR__ . '/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
-// Jika database masih kosong (tidak ada tabel), jalankan migrasi
-if (file_exists($targetDb) && filesize($targetDb) === 0) {
-    try {
-        /** @var ConsoleKernel $console */
-        $console = $app->make(ConsoleKernel::class);
+// Inisialisasi Console Kernel untuk mendaftarkan Facades & Providers
+/** @var ConsoleKernel $console */
+$console = $app->make(ConsoleKernel::class);
+$console->bootstrap();
+
+// Auto-Setup Database Supabase: Jika tabel 'users' belum ada, otomatis migrasi & seed
+try {
+    if (!Schema::hasTable('users')) {
         $console->call('migrate', ['--force' => true]);
         $console->call('db:seed', ['--force' => true]);
-    } catch (\Throwable $e) {
-        error_log('[Vercel] Auto-migration error: ' . $e->getMessage());
     }
+} catch (\Throwable $e) {
+    error_log('[Supabase Setup] ' . $e->getMessage());
 }
 
 // ─── Tangani HTTP Request ───────────────────────────────────────────────────
