@@ -7,13 +7,39 @@ use Illuminate\Support\Facades\Schema;
 
 define('LARAVEL_START', microtime(true));
 
-// ─── Layani file statis jika request mengarah ke aset di folder public ────────
+// ─── Layani file statis dari folder public secara mandiri ─────────────────────
 $publicDir = realpath(__DIR__ . '/../public');
 $uri = urldecode(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH));
+
 if ($uri !== '/' && $publicDir) {
     $filePath = realpath($publicDir . $uri);
     if ($filePath && is_file($filePath) && str_starts_with($filePath, $publicDir)) {
-        return false;
+        $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        $mimeTypes = [
+            'css'         => 'text/css; charset=utf-8',
+            'js'          => 'application/javascript; charset=utf-8',
+            'mjs'         => 'application/javascript; charset=utf-8',
+            'json'        => 'application/json; charset=utf-8',
+            'webmanifest' => 'application/manifest+json; charset=utf-8',
+            'png'         => 'image/png',
+            'jpg'         => 'image/jpeg',
+            'jpeg'        => 'image/jpeg',
+            'gif'         => 'image/gif',
+            'ico'         => 'image/x-icon',
+            'svg'         => 'image/svg+xml',
+            'woff'        => 'font/woff',
+            'woff2'       => 'font/woff2',
+            'ttf'         => 'font/ttf',
+            'txt'         => 'text/plain',
+        ];
+
+        $mime = $mimeTypes[$ext] ?? (function_exists('mime_content_type') ? mime_content_type($filePath) : 'application/octet-stream');
+
+        header('Content-Type: ' . $mime);
+        header('Cache-Control: public, max-age=31536000, immutable');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit;
     }
 }
 
