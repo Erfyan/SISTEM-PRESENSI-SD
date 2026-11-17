@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+// ─── Layani file statis jika request mengarah ke aset di folder public ────────
+$publicDir = realpath(__DIR__ . '/../public');
+$uri = urldecode(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH));
+if ($uri !== '/' && $publicDir) {
+    $filePath = realpath($publicDir . $uri);
+    if ($filePath && is_file($filePath) && str_starts_with($filePath, $publicDir)) {
+        return false;
+    }
+}
+
 // ─── Vercel Environment Setup ───────────────────────────────────────────────
 
 putenv('VERCEL=1');
