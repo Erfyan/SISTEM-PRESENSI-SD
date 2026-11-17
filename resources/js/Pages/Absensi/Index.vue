@@ -1,13 +1,13 @@
 <template>
   <AppLayout>
-    <div class="space-y-5 max-w-5xl mx-auto pb-28 sm:pb-16">
+    <div class="space-y-6 max-w-6xl mx-auto pb-28 sm:pb-16">
       
       <!-- Network & Offline Sync Status Indicator Banner -->
       <div
-        class="rounded-2xl p-3.5 sm:p-4 border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+        class="rounded-2xl p-4 border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-xs"
         :class="bannerStatusClass"
       >
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-3">
           <span class="relative flex h-3 w-3 shrink-0">
             <span
               v-if="isOnline && pendingCount === 0"
@@ -25,11 +25,26 @@
           </span>
           <div class="space-y-0.5">
             <div class="font-bold flex items-center gap-2">
-              <span v-if="!isOnline">Offline — Bekerja Tanpa Internet</span>
-              <span v-else-if="syncStatus === 'syncing'">Menyinkronkan Data ke Server...</span>
-              <span v-else-if="pendingCount > 0">Menunggu Sinkron ({{ pendingCount }})</span>
-              <span v-else-if="syncStatus === 'synced'">Tersinkron</span>
-              <span v-else>Online</span>
+              <span v-if="!isOnline" class="flex items-center gap-1.5 text-orange-900">
+                <i class="fa-solid fa-wifi-slash text-xs"></i>
+                Offline — Bekerja Tanpa Internet
+              </span>
+              <span v-else-if="syncStatus === 'syncing'" class="flex items-center gap-1.5 text-teal-900">
+                <i class="fa-solid fa-rotate fa-spin text-xs"></i>
+                Menyinkronkan Data ke Server...
+              </span>
+              <span v-else-if="pendingCount > 0" class="flex items-center gap-1.5 text-amber-900">
+                <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+                Menunggu Sinkron ({{ pendingCount }})
+              </span>
+              <span v-else-if="syncStatus === 'synced'" class="flex items-center gap-1.5 text-emerald-900">
+                <i class="fa-solid fa-circle-check text-xs"></i>
+                Tersinkron
+              </span>
+              <span v-else class="flex items-center gap-1.5 text-emerald-900">
+                <i class="fa-solid fa-wifi text-xs"></i>
+                Online
+              </span>
 
               <span
                 v-if="lastOfflineSavedTime"
@@ -58,17 +73,9 @@
             type="button"
             @click="triggerManualSync"
             :disabled="syncStatus === 'syncing'"
-            class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
-            <svg
-              class="w-3.5 h-3.5"
-              :class="{ 'animate-spin': syncStatus === 'syncing' }"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
+            <i class="fa-solid fa-rotate text-xs" :class="{ 'fa-spin': syncStatus === 'syncing' }"></i>
             <span>{{ syncStatus === 'syncing' ? 'Menyinkronkan...' : 'Sinkronkan Sekarang' }}</span>
           </button>
         </div>
@@ -79,45 +86,50 @@
         v-if="peringatanAbsenKosong && peringatanAbsenKosong.tampilkan"
         class="rounded-2xl p-4 bg-rose-50 border border-rose-300 text-rose-900 flex items-start sm:items-center gap-3 shadow-xs"
       >
-        <div class="p-2 rounded-xl bg-rose-200 text-rose-800 shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
+        <div class="w-10 h-10 rounded-xl bg-rose-200 text-rose-800 flex items-center justify-center text-base font-bold shrink-0">
+          <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
         <div class="flex-1">
-          <h2 class="font-bold text-sm text-rose-950">Pengingat Absensi Harian</h2>
+          <h2 class="font-bold text-sm text-rose-950 flex items-center gap-1.5">
+            <span>Pengingat Absensi Harian</span>
+          </h2>
           <p class="text-xs text-rose-800 mt-0.5">{{ peringatanAbsenKosong.pesan }} Segera lengkapi dan simpan presensi kelas Anda.</p>
         </div>
       </div>
 
       <!-- Header & Class/Date Filter -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs">
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2 flex-wrap">
-              <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                Absensi Harian
+              <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-teal-600"></i>
+                <span>Absensi Harian</span>
               </h1>
               <span
                 v-if="sudahDisimpan"
-                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300"
+                class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 inline-flex items-center gap-1"
               >
+                <i class="fa-solid fa-check text-[10px]"></i>
                 Sudah Terisi
               </span>
               <span
                 v-else
-                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300"
+                class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300 inline-flex items-center gap-1"
               >
+                <i class="fa-regular fa-clock text-[10px]"></i>
                 Belum Disimpan
               </span>
               <span
                 v-if="isLoadedFromCache"
-                class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-800 border border-blue-200"
+                class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-800 border border-blue-200 inline-flex items-center gap-1"
               >
+                <i class="fa-solid fa-mobile-screen text-[9px]"></i>
                 Data Cache HP
               </span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">
+            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+              <i class="fa-regular fa-calendar-check text-slate-400"></i>
               {{ kelas ? 'Kelas ' + kelas.nama + ' (' + kelas.tahun_ajaran + ') · Wali: ' + (kelas.wali?.nama || '-') : 'Pilih kelas' }}
             </p>
           </div>
@@ -200,9 +212,7 @@
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-            </svg>
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
           </div>
           <div>
             <div class="font-bold text-slate-900 text-sm flex items-center gap-2">
@@ -252,7 +262,19 @@
       </div>
 
       <!-- Student Attendance Roster List -->
-      <div v-else class="space-y-3">
+      <div v-else class="space-y-4">
+        <!-- Section Title Header -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex items-center justify-between">
+          <h2 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+            <i class="fa-solid fa-users-viewfinder text-teal-600"></i>
+            <span>Daftar Presensi Siswa — Kelas {{ kelas.nama }}</span>
+          </h2>
+          <span class="text-xs text-slate-500 font-semibold px-2.5 py-1 rounded-full bg-slate-100 inline-flex items-center gap-1.5">
+            <i class="fa-solid fa-user-check text-teal-600 text-[10px]"></i>
+            {{ siswaList.length }} Siswa Siap Diabsen
+          </span>
+        </div>
+
         <div
           v-for="(s, index) in siswaList"
           :key="s.id"
