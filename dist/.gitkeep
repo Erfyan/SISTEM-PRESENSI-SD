@@ -1,0 +1,1 @@
+# Prevent Vercel Vite preset from failing if looking for dist
