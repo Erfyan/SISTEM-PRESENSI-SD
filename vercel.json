@@ -11,16 +11,7 @@
   },
   "routes": [
     {
-      "src": "/build/(.*)",
-      "dest": "/public/build/$1"
-    },
-    {
-      "src": "/icons/(.*)",
-      "dest": "/public/icons/$1"
-    },
-    {
-      "src": "/(favicon.*|robots.txt|manifest.*|sw.js|registerSW.js)",
-      "dest": "/public/$1"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
@@ -30,7 +21,7 @@
   "env": {
     "APP_NAME": "Sipreline",
     "APP_ENV": "production",
-    "APP_DEBUG": "false",
+    "APP_DEBUG": "true",
     "APP_TIMEZONE": "Asia/Jakarta",
     "APP_LOCALE": "id",
     "APP_FALLBACK_LOCALE": "id",
