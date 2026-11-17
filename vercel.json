@@ -1,6 +1,8 @@
 {
   "version": 2,
   "framework": null,
+  "installCommand": "composer install --no-dev --optimize-autoloader --no-interaction && npm install",
+  "buildCommand": "npm run build",
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
@@ -19,8 +21,13 @@
     }
   ],
   "env": {
+    "APP_NAME": "Sipreline",
     "APP_ENV": "production",
-    "APP_DEBUG": "false",
+    "APP_DEBUG": "true",
+    "APP_TIMEZONE": "Asia/Jakarta",
+    "APP_LOCALE": "id",
+    "APP_FALLBACK_LOCALE": "id",
+    "APP_FAKER_LOCALE": "id_ID",
     "APP_CONFIG_CACHE": "/tmp/bootstrap/cache/config.php",
     "APP_EVENTS_CACHE": "/tmp/bootstrap/cache/events.php",
     "APP_PACKAGES_CACHE": "/tmp/bootstrap/cache/packages.php",
@@ -31,6 +38,7 @@
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr",
     "DB_CONNECTION": "sqlite",
-    "DB_DATABASE": "/tmp/database.sqlite"
+    "DB_DATABASE": "/tmp/database.sqlite",
+    "BCRYPT_ROUNDS": "4"
   }
 }
