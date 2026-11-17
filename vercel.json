@@ -37,13 +37,13 @@
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr",
     "DB_CONNECTION": "pgsql",
-    "DB_HOST": "db.rvoztduinbwqfqxekqgw.supabase.co",
+    "DB_HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
     "DB_PORT": "5432",
     "DB_DATABASE": "postgres",
-    "DB_USERNAME": "postgres",
+    "DB_USERNAME": "postgres.rvoztduinbwqfqxekqgw",
     "DB_PASSWORD": "Erfyan-09.09",
     "DB_SSLMODE": "require",
-    "DB_URL": "postgresql://postgres:Erfyan-09.09@db.rvoztduinbwqfqxekqgw.supabase.co:5432/postgres?sslmode=require",
+    "DB_URL": "postgresql://postgres.rvoztduinbwqfqxekqgw:Erfyan-09.09@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require",
     "BCRYPT_ROUNDS": "4"
   }
 }
