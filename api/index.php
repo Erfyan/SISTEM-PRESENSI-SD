@@ -120,28 +120,11 @@ foreach ($tmpDirs as $dir) {
     }
 }
 
-// ─── Bootstrap Laravel ──────────────────────────────────────────────────────
+// ─── Bootstrap & Tangani HTTP Request ────────────────────────────────────────
 
 require __DIR__ . '/../vendor/autoload.php';
 
 /** @var Application $app */
 $app = require_once __DIR__ . '/../bootstrap/app.php';
-
-// Inisialisasi Console Kernel untuk mendaftarkan Facades & Providers
-/** @var ConsoleKernel $console */
-$console = $app->make(ConsoleKernel::class);
-$console->bootstrap();
-
-// Auto-Setup Database Supabase: Jika tabel 'users' belum ada, otomatis migrasi & seed
-try {
-    if (!Schema::hasTable('users')) {
-        $console->call('migrate', ['--force' => true]);
-        $console->call('db:seed', ['--force' => true]);
-    }
-} catch (\Throwable $e) {
-    error_log('[Supabase Setup] ' . $e->getMessage());
-}
-
-// ─── Tangani HTTP Request ───────────────────────────────────────────────────
 
 $app->handleRequest(Request::capture());

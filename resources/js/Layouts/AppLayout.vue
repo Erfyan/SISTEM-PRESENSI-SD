@@ -34,6 +34,7 @@
             <template v-if="user?.peran === 'guru'">
               <Link
                 href="/absensi"
+                prefetch
                 :class="[
                   'px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/absensi')
@@ -46,6 +47,7 @@
               </Link>
               <Link
                 href="/rekap"
+                prefetch
                 :class="[
                   'px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/rekap')
@@ -58,6 +60,7 @@
               </Link>
               <Link
                 href="/siswa"
+                prefetch
                 :class="[
                   'px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/siswa')
@@ -70,6 +73,7 @@
               </Link>
               <Link
                 href="/kalender-libur"
+                prefetch
                 :class="[
                   'px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/kalender-libur')
@@ -86,6 +90,7 @@
             <template v-if="user?.peran === 'admin'">
               <Link
                 href="/admin/dashboard"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/admin/dashboard')
@@ -98,6 +103,7 @@
               </Link>
               <Link
                 href="/rekap"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/rekap')
@@ -110,6 +116,7 @@
               </Link>
               <Link
                 href="/admin/kelas"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/admin/kelas')
@@ -122,6 +129,7 @@
               </Link>
               <Link
                 href="/admin/guru"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/admin/guru')
@@ -134,6 +142,7 @@
               </Link>
               <Link
                 href="/siswa"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/siswa')
@@ -146,6 +155,7 @@
               </Link>
               <Link
                 href="/kalender-libur"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/kalender-libur')
@@ -158,6 +168,7 @@
               </Link>
               <Link
                 href="/admin/status-sistem"
+                prefetch
                 :class="[
                   'px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/admin/status-sistem')
@@ -174,6 +185,7 @@
             <template v-if="user?.peran === 'ortu'">
               <Link
                 href="/portal-ortu"
+                prefetch
                 :class="[
                   'px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5',
                   isUrl('/portal-ortu')
@@ -496,6 +508,7 @@
         <template v-if="user?.peran === 'guru'">
           <Link
             href="/absensi"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-3 rounded-xl text-[10px] font-semibold transition',
               isUrl('/absensi') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -506,6 +519,7 @@
           </Link>
           <Link
             href="/rekap"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-3 rounded-xl text-[10px] font-semibold transition',
               isUrl('/rekap') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -516,6 +530,7 @@
           </Link>
           <Link
             href="/siswa"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-3 rounded-xl text-[10px] font-semibold transition',
               isUrl('/siswa') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -526,6 +541,7 @@
           </Link>
           <Link
             href="/kalender-libur"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-3 rounded-xl text-[10px] font-semibold transition',
               isUrl('/kalender-libur') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -539,6 +555,7 @@
         <template v-if="user?.peran === 'admin'">
           <Link
             href="/admin/dashboard"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-semibold transition',
               isUrl('/admin/dashboard') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -549,6 +566,7 @@
           </Link>
           <Link
             href="/rekap"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-semibold transition',
               isUrl('/rekap') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -559,6 +577,7 @@
           </Link>
           <Link
             href="/admin/kelas"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-semibold transition',
               isUrl('/admin/kelas') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -569,6 +588,7 @@
           </Link>
           <Link
             href="/admin/guru"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-semibold transition',
               isUrl('/admin/guru') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -579,6 +599,7 @@
           </Link>
           <Link
             href="/admin/status-sistem"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-2.5 rounded-xl text-[10px] font-semibold transition',
               isUrl('/admin/status-sistem') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -592,6 +613,7 @@
         <template v-if="user?.peran === 'ortu'">
           <Link
             href="/portal-ortu"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-4 rounded-xl text-[10px] font-semibold transition',
               isUrl('/portal-ortu') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
@@ -602,6 +624,7 @@
           </Link>
           <Link
             href="/profil/password"
+            prefetch
             :class="[
               'flex flex-col items-center py-1 px-4 rounded-xl text-[10px] font-semibold transition',
               isUrl('/profil/password') ? 'text-teal-700 font-bold' : 'text-slate-500 hover:text-slate-800'
